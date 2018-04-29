@@ -9,7 +9,7 @@ import requests, json
 url = "http://api.sendcloud.net/apiv2/mail/send"
 
 
-def send_email(name, authcode, email):
+def send_email(*args):
     """
     给指定邮箱发送验证信息
     :param name:
@@ -35,6 +35,13 @@ def send_email(name, authcode, email):
     # "to"：指定目标邮箱
     # "sub"：指定替换变量
     # 将模板中定义的变量 %name% 和 %url% 分别进行替换成真实值
+    try:
+        name = args[0]
+        authcode = args[1]
+        email = args[2]
+    except Exception, e:
+        raise Exception("arg error")
+
     sub_vars = {
         'to': [email],
         'sub': {

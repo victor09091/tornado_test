@@ -2,19 +2,19 @@
 import hashlib, random, string
 
 
-def get_token(name, email):
+def get_token(name, email, model=None):
     """
     使用由name, time 组成的明文生成相应密文
     :param name:
     :param email:
     :return:
     """
-    data = "%s%s" % (name, email)
+    data = "%s%s%s" % (name, email, model)
     hash_md5 = hashlib.md5(data)
     return hash_md5.hexdigest()
 
 
-def get_authcode(length=20):
+def get_authcode(length=5):
     """
     生成长度为 length 的随机字符串作为验证码
     :param length:
