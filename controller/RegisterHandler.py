@@ -81,4 +81,5 @@ class RegisterHandler(BaseHandler):
             db.execute(create_sql)
 
             REDIS.delete(token)   #删除邮件验证码
+            print 'register ok!'
         return self.write(json.dumps({'msg': msg, 'res_code': 200}))
