@@ -4,33 +4,40 @@ import tornado.web
 import tornado.ioloop
 import tornado.httpserver
 from base import BaseHandler
-import  json
+import json
 import tornado
 from tornado import gen
 from db import *
 
+
 class LoginHandler(BaseHandler):
     def get(self, *args, **kwargs):
-        self.render('login.html' ,state = "")
+        self.render('login.html')
 
+    @tornado.web.asynchronous
+    @gen.coroutine
     def post(self, *args, **kwargs):
         username = self.get_argument('username')
         password = self.get_argument('password')
         code =self.get_argument('code')
         check_code = self.session['CheckCode']
 
+        res_dict = dict.fromkeys(['result', 'err_msg'])
+
         select_sql = 'select * from user where name=%s and password=%s'
         res = db.query(select_sql, username, password)
 
         if not res:
-            result = "用户名或密码错误！！！"
-            # self.render('login.html', state="用户名或密码错误！！！")
+            res_dict['err_msg'] = "用户名或密码错误！！！"
         elif code.upper() != check_code.upper():
-            result = "验证码错误！！！"
-            # self.render('login.html', state="验证码错误！！！")
+            res_dict['err_msg'] = "验证码错误！！！"
+
+        if res_dict['err_msg']:
+            res_dict['result'] = False
         else:
-            result = "登录成功！！！"
-        self.write(json.dumps(result))
+            res_dict['result'] = True
+
+        return self.write(json.dumps(res_dict))
 
 
 class CheckCodeHandler(BaseHandler):
@@ -46,3 +53,8 @@ class CheckCodeHandler(BaseHandler):
         self.session['CheckCode'] =str(code)
         # 返回图片
         self.write(mstream.getvalue())
+
+
+class LoginSuccessHandler(BaseHandler):
+    def get(self, *args, **kwargs):
+        self.render('login_success.html')

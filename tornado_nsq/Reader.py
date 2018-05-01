@@ -9,7 +9,7 @@ def email_message(message):
         message.enable_async()
         # cache the message for later processing
         buf.append(message)
-        if len(buf) >= 3:
+        if len(buf) >= 5:
             for msg in buf:
 
                 args = msg['keys']

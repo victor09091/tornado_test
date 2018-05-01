@@ -28,9 +28,10 @@
                  url: "/login",
                  data: {username: username, password: password, code: code},
                  success: function (result) {
-                     if (result.resultCode != 200) {
-                         alert("Data Saved: " + result);
-                     };
+                         if (result.res)
+                            alert("Data Saved: " + result.err_msg);
+                         else
+                             window.location.href="/login_success";
                  },
                  error: function () {
                      alert("异常！");

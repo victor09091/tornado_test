@@ -5,13 +5,13 @@ import tornado.ioloop
 import tornado.httpserver
 import functools
 import json
-from nsq import Writer, Error
+# from nsq import Writer, Error
 
-from controller import LoginHandler, SendEmailHandler, CheckCodeHandler, RegisterHandler
+from controller import LoginHandler, SendEmailHandler, CheckCodeHandler, RegisterHandler, LoginSuccessHandler
 
 class Application(tornado.web.Application):
     def __init__(self, handlers, **settings):
-        self.nsq = Writer(['127.0.0.1:4150'])
+        # self.nsq = Writer(['127.0.0.1:4150'])
         super(Application, self).__init__(handlers, **settings)
 
 settings = {
@@ -22,7 +22,8 @@ application = Application([
     (r'/login',LoginHandler),
     (r'/send_email',SendEmailHandler),
     (r'/check_code',CheckCodeHandler),
-    (r'/register',RegisterHandler)
+    (r'/register',RegisterHandler),
+    (r'/login_success', LoginSuccessHandler),
 ],**settings)
 
 if __name__ == '__main__':

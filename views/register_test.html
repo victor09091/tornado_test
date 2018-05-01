@@ -23,28 +23,24 @@
                alert("不是一个有效的 e-mail 地址");
                return false;
            }
-           console.log("hello");
 	       var username = $('#name').val();
            var email = $('#email').val();
 	       $.ajax({
-            //几个参数需要注意一下
-
                 type: "POST",//方法类型
                 dataType: "json",//预期服务器返回的数据类型
                 url: "/send_email" ,//url
                 data: {username: username, email:email},
 
                 success: function (result) {
-//                    console.log(result);//打印服务端返回的数据(调试用)
-                    if (result.resultCode == 200) {
-                        alert("SUCCESS");
-                    };
+                    if (result.res_code == 200){
+                        alert("你好，邮件验证码开始发送，请稍后查看！5分钟内有效");
+                    }
                 },
-//                error : function() {
-//                    alert("异常！");
-//                }
+                error : function() {
+                    alert("异常！");
+                }
            });
-	       alert("你好，邮件验证码开始发送，请稍后查看！5分钟内有效");
+
         }
     </script>
     <script type="text/javascript">
@@ -59,18 +55,15 @@
            var password = $('#password').val();
            var authcode = $('#authcode').val();
                $.ajax({
-                   //几个参数需要注意一下
                    type: "post",//方法类型
                    dataType: "json",//预期服务器返回的数据类型
                    url: "/register",//url
                    data: {username: username, email: email, password: password, authcode: authcode},
+
                    success: function (result) {
-                       alert("Data Saved: " + result);
-                       console.log(result);//打印服务端返回的数据(调试用)
-                       if (result.resultCode == 200) {
-                           alert("SUCCESS");
+                       if (result.res_code == 200){
+                           alert("Data Saved: " + result);
                        }
-                       ;
                    },
                    error: function () {
                        alert("异常！");
