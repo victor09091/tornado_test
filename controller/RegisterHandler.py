@@ -80,8 +80,6 @@ class RegisterHandler(BaseHandler):
             create_sql = "insert into user (name, password, email) values ('%s', '%s', '%s')" % (username, password, email)
             db.execute(create_sql)
 
-
             REDIS.delete(token)   #删除邮件验证码
-            print """"""
 
         return self.write(json.dumps({'msg': msg, 'res_code': 200}))
